@@ -12,15 +12,30 @@ const Form = () => {
       toast.error("Ez mail ids are not accepted")
       return;
     }
-    const response = await fetch("http://3.228.97.110:9000/api",{
-      method:"POST",
-      body: JSON.stringify({
-        "email": email,
-      })
-    })
-    const res = await response.json();
-    
-    toast(res.message);
+    try {
+      const response = await fetch("http://3.228.97.110:9000/api", {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify({ email: email })
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.statusText}`);
+      }
+      const res = await response.json();
+      toast.success(res.message);
+    } catch (error) {
+      console.error("Error during fetch:", error);
+
+      if (error.name === "TypeError") {
+        toast.error("Network error, please try again later.");
+      } else {
+        toast.error("Internal Server Error");
+      }
+    }
   }
 
   return (

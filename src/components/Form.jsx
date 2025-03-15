@@ -13,7 +13,7 @@ const Form = () => {
       return;
     }
     try {
-      const response = await fetch("http://3.228.97.110:9000/api", {
+      const response = await fetch("https://test.ezworks.ai/api", {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
